@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="pitiupi.lig4" default="jar" basedir=".">
+    <property file="nbproject/project.properties"/>
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+    <target name="compile">
+        <mkdir dir="${build.classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" source="17" target="17"
+               encoding="UTF-8" includeantruntime="false" classpath="${reference.pitiupi.jar}"/>
+        <copy todir="${build.classes.dir}">
+            <fileset dir="${src.dir}"><include name="META-INF/**"/></fileset>
+        </copy>
+    </target>
+    <target name="test" depends="compile">
+        <mkdir dir="${build.dir}/test-classes"/>
+        <javac srcdir="test" destdir="${build.dir}/test-classes" source="17" target="17"
+               encoding="UTF-8" includeantruntime="false" classpath="${reference.pitiupi.jar}:${build.classes.dir}"/>
+        <java classname="pitiupi.lig4.game.Lig4GameTest" fork="true" failonerror="true">
+            <classpath>
+                <pathelement location="${build.dir}/test-classes"/>
+                <pathelement location="${build.classes.dir}"/>
+                <pathelement location="${reference.pitiupi.jar}"/>
+            </classpath>
+        </java>
+    </target>
+    <target name="jar" depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <jar destfile="${dist.jar}" basedir="${build.classes.dir}"/>
+    </target>
+</project>
